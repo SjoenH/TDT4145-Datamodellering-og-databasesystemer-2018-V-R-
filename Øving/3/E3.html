@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <style>
+/*--------------------------------------------------------------------------------------------- * Copyright (c) Microsoft Corporation. All rights reserved. * Licensed under the MIT License. See License.txt in the project root for license information. *--------------------------------------------------------------------------------------------*/ body { font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback"; font-size: 14px; padding: 0 12px; line-height: 22px; word-wrap: break-word; } body.scrollBeyondLastLine { margin-bottom: calc(100vh - 22px); } body.showEditorSelection .code-line { position: relative; } body.showEditorSelection .code-active-line:before, body.showEditorSelection .code-line:hover:before { content: ""; display: block; position: absolute; top: 0; left: -12px; height: 100%; } body.showEditorSelection li.code-active-line:before, body.showEditorSelection li.code-line:hover:before { left: -30px; } .vscode-light.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(0, 0, 0, 0.15); } .vscode-light.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(0, 0, 0, 0.40); } .vscode-dark.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 255, 255, 0.4); } .vscode-dark.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 255, 255, 0.60); } .vscode-high-contrast.showEditorSelection .code-active-line:before { border-left: 3px solid rgba(255, 160, 0, 0.7); } .vscode-high-contrast.showEditorSelection .code-line:hover:before { border-left: 3px solid rgba(255, 160, 0, 1); } img { max-width: 100%; max-height: 100%; } a { color: #4080D0; text-decoration: none; } a:focus, input:focus, select:focus, textarea:focus { outline: 1px solid -webkit-focus-ring-color; outline-offset: -1px; } hr { border: 0; height: 2px; border-bottom: 2px solid; } h1 { padding-bottom: 0.3em; line-height: 1.2; border-bottom-width: 1px; border-bottom-style: solid; } h1, h2, h3 { font-weight: normal; } h1 code, h2 code, h3 code, h4 code, h5 code, h6 code { font-size: inherit; line-height: auto; } a:hover { color: #4080D0; text-decoration: underline; } table { border-collapse: collapse; } table > thead > tr > th { text-align: left; border-bottom: 1px solid; } table > thead > tr > th, table > thead > tr > td, table > tbody > tr > th, table > tbody > tr > td { padding: 5px 10px; } table > tbody > tr + tr > td { border-top: 1px solid; } blockquote { margin: 0 7px 0 5px; padding: 0 16px 0 10px; border-left: 5px solid; } code { font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback"; font-size: 14px; line-height: 19px; } body.wordWrap pre { white-space: pre-wrap; } .mac code { font-size: 12px; line-height: 18px; } code > div { padding: 16px; border-radius: 3px; overflow: auto; } /** Theming */ .vscode-light { color: rgb(30, 30, 30); } .vscode-dark { color: #DDD; } .vscode-high-contrast { color: white; } .vscode-light code { color: #A31515; } .vscode-dark code { color: #D7BA7D; } .vscode-light code > div { background-color: rgba(220, 220, 220, 0.4); } .vscode-dark code > div { background-color: rgba(10, 10, 10, 0.4); } .vscode-high-contrast code > div { background-color: rgb(0, 0, 0); } .vscode-high-contrast h1 { border-color: rgb(0, 0, 0); } .vscode-light table > thead > tr > th { border-color: rgba(0, 0, 0, 0.69); } .vscode-dark table > thead > tr > th { border-color: rgba(255, 255, 255, 0.69); } .vscode-light h1, .vscode-light hr, .vscode-light table > tbody > tr + tr > td { border-color: rgba(0, 0, 0, 0.18); } .vscode-dark h1, .vscode-dark hr, .vscode-dark table > tbody > tr + tr > td { border-color: rgba(255, 255, 255, 0.18); } .vscode-light blockquote, .vscode-dark blockquote { background: rgba(127, 127, 127, 0.1); border-color: rgba(0, 122, 204, 0.5); } .vscode-high-contrast blockquote { background: transparent; border-color: #fff; }
+</style>
+<style>
+/* Tomorrow Theme */ /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */ /* Original theme - https://github.com/chriskempson/tomorrow-theme */ /* Tomorrow Comment */ .hljs-comment, .hljs-quote { color: #8e908c; } /* Tomorrow Red */ .hljs-variable, .hljs-template-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class, .hljs-regexp, .hljs-deletion { color: #c82829; } /* Tomorrow Orange */ .hljs-number, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params, .hljs-meta, .hljs-link { color: #f5871f; } /* Tomorrow Yellow */ .hljs-attribute { color: #eab700; } /* Tomorrow Green */ .hljs-string, .hljs-symbol, .hljs-bullet, .hljs-addition { color: #718c00; } /* Tomorrow Blue */ .hljs-title, .hljs-section { color: #4271ae; } /* Tomorrow Purple */ .hljs-keyword, .hljs-selector-tag { color: #8959a8; } .hljs { display: block; overflow-x: auto; color: #4d4d4c; padding: 0.5em; } .hljs-emphasis { font-style: italic; } .hljs-strong { font-weight: bold; }
+</style>
+<style>
+ul.contains-task-list { padding-left: 0; } ul ul.contains-task-list { padding-left: 40px; } .task-list-item { list-style-type: none; } .task-list-item-checkbox { vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'HelveticaNeue-Light', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="%C3%B8ving-3">Øving 3</h1>
+<h2 id="oppgave-1-lage-sql-tabeller-og-legge-inn-data">Oppgave 1: Lage SQL-tabeller og legge inn data</h2>
+<p><strong>a)</strong> Vi ønsker at dersom man sletter eller oppdaterer en rad i Film-tabellen, skal
+tilsvarende referanser til denne raden også slettes eller oppdateres. Dette betyr at
+hvis man for eksempel sletter en film, skal SkuespillerIFilm- og
+SjangerForFilm-tabellene også slette de radene der referanser til denne filmen
+inngår. Hvordan kan man spesifisere en slik restriksjon i SQL?</p>
+<pre class="hljs"><code><div>ON <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>
+</div></code></pre>
+<p><strong>b)</strong> Skriv nå kode som konstruerer disse tabellene i sql.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- ENTITETS-TABELLER</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> Film
+(
+    FilmID <span class="hljs-built_in">INTEGER</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    Tittel <span class="hljs-built_in">VARCHAR</span>,
+    Produksjonsår <span class="hljs-built_in">INTEGER</span>,
+    RegissørID <span class="hljs-built_in">INTEGER</span>,
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> Sjanger
+(
+    SjangerID <span class="hljs-built_in">INTEGER</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    Navn <span class="hljs-built_in">VARCHAR</span>,
+    Beskrivelse <span class="hljs-built_in">VARCHAR</span>,
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> Skuespiller
+(
+    SkuespillerID <span class="hljs-built_in">INTEGER</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    Navn <span class="hljs-built_in">VARCHAR</span>,
+    Fødselsår <span class="hljs-built_in">INTEGER</span>,
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> Regissør
+(
+    RegissørID <span class="hljs-built_in">INTEGER</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    Navn <span class="hljs-built_in">VARCHAR</span>,
+);
+<span class="hljs-comment">-- RELASJONS-TABELLER</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> SjangerForFilm
+(
+    FOREIGN <span class="hljs-keyword">KEY</span> (FilmID)
+        <span class="hljs-keyword">REFERENCES</span> Film(FilmID)
+        <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    FOREIGN <span class="hljs-keyword">Key</span> (SjangerID)
+        <span class="hljs-keyword">REFERENCES</span> Sjanger(SjangerID)
+        <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>
+)
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> SkuespillerIFIlm
+(
+    FOREIGN <span class="hljs-keyword">KEY</span> (FilmID)
+        <span class="hljs-keyword">REFERENCES</span> Film(FilmID)
+        <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    FOREIGN <span class="hljs-keyword">Key</span> (SkuespillerID)
+        <span class="hljs-keyword">REFERENCES</span> Skuespiller(SkuespillerID)
+        <span class="hljs-keyword">ON</span> <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">CASCADE</span>,
+    Rolle <span class="hljs-built_in">VARCHAR</span>
+)
+</div></code></pre>
+<p><strong>c)</strong> Skriv SQL-setninger som legger inn følgende data i databasen:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> Regissør(RegissørID,Navn)
+<span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1</span>,<span class="hljs-string">"Peyton Reed"</span>),(<span class="hljs-number">2</span>,<span class="hljs-string">"Tom Shadyac"</span>);
+
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> Film(FilmID,Navn,Produksjonsår, RegissørID)
+<span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1</span>, <span class="hljs-string">'Yes Man'</span>, <span class="hljs-number">2008</span>, <span class="hljs-number">1</span>);
+
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> Skuespiller(SkuespillerID,Navn,Fødselsår)
+<span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1</span>,<span class="hljs-string">'Jim Carrey'</span>,<span class="hljs-number">1962</span>);
+
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> SkuespillerIFIlm(FilmID,SkuespillerID)
+<span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-string">"Carl"</span>)
+</div></code></pre>
+<p><strong>d)</strong> Skriv en SQL-setning som oppdaterer navnet til Jim Carrey til James Eugene Carrey.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">UPDATE</span> Skuespiller
+<span class="hljs-keyword">SET</span> Navn = <span class="hljs-string">"Jim Eugene Carrey"</span>
+<span class="hljs-keyword">WHERE</span> SkuespillerID = <span class="hljs-number">1</span>;
+</div></code></pre>
+<p><strong>e)</strong> Skriv en SQL-setning som sletter Tom Shadyac fra databasen.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">DELETE</span> Regissør
+<span class="hljs-keyword">WHERE</span> RegissørID = <span class="hljs-number">2</span>;
+</div></code></pre>
+<h2 id="oppgave-2-sp%C3%B8rringer-i-sql">Oppgave 2: Spørringer i SQL</h2>
+<p><strong>a)</strong> Hent ut filmID, tittel, produksjonsår og regissørID på alle filmer.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">select</span> filmID,tittel,produksjonsår, regissørID <span class="hljs-keyword">FROM</span> film;
+</div></code></pre>
+<pre class="hljs"><code><div>+--------+--------------------------------+----------------+-------------+
+| filmID | tittel                         | produksjonsår  | regissørID  |
++--------+--------------------------------+----------------+-------------+
+|      1 | Yes Man                        |           2008 |           1 |
+|      2 | Ace Ventura: When Nature Calls |           1995 |           3 |
+|      3 | Ace Ventura: Pet Detective     |           1994 |           2 |
+|      4 | Bruce Almighty                 |           2003 |           2 |
+|      5 | The Dark Knight                |           2008 |           4 |
+|      6 | Batman Begins                  |           2005 |           4 |
+|      7 | En eksamenvakts dagbok         |           2014 |           5 |
++--------+--------------------------------+----------------+-------------+
+7 rows <span class="hljs-keyword">in</span> <span class="hljs-built_in">set</span> (0.00 sec)
+</div></code></pre>
+<p><strong>b)</strong> Finn navn på alle skuespillere født senere enn 1960.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">select</span> navn <span class="hljs-keyword">FROM</span> skuespiller
+<span class="hljs-keyword">where</span> Fødselsår &gt; <span class="hljs-number">1960</span>;
+</div></code></pre>
+<pre class="hljs"><code><div>+----------------------+
+| navn                 |
++----------------------+
+| Jim Carrey           |
+| Zooey Deschanel      |
+| Bradley Cooper       |
+| John Michael Higgins |
+| Rhys Darby           |
+| Maynard Eziashi      |
+| Courtney Cox         |
+| Tone Loc             |
+| Dan Marino           |
+| Jennifer Aniston     |
+| Catherine Bell       |
+| Christian Bale       |
+| Heath Ledger         |
+| Aaron Eckhart        |
+| Katie Holmes         |
++----------------------+
+15 rows <span class="hljs-keyword">in</span> <span class="hljs-built_in">set</span> (0.00 sec)
+</div></code></pre>
+<p><strong>c)</strong> Finn navn på alle skuespillere født på 80-tallet, sortert i alfabetisk rekkefølge.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">select</span> navn <span class="hljs-keyword">FROM</span> skuespiller
+<span class="hljs-keyword">where</span> Fødselsår <span class="hljs-keyword">BETWEEN</span> <span class="hljs-number">1970</span> <span class="hljs-keyword">AND</span> <span class="hljs-number">1980</span>;
+</div></code></pre>
+<pre class="hljs"><code><div>+-----------------+
+| navn            |
++-----------------+
+| Zooey Deschanel |
+| Bradley Cooper  |
+| Rhys Darby      |
+| Christian Bale  |
+| Heath Ledger    |
+| Katie Holmes    |
++-----------------+
+6 rows <span class="hljs-keyword">in</span> <span class="hljs-built_in">set</span> (0.00 sec)
+</div></code></pre>
+<p><strong>d)</strong> Finn titlene på alle filmene og de tilhørende rollene som “Morgan Freeman” har spilt.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">select</span> Tittel, Rolle <span class="hljs-keyword">FROM</span> skuespillerifilm <span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> film <span class="hljs-keyword">ON</span> skuespillerifilm.FilmID = film.FilmId
+<span class="hljs-keyword">where</span> SkuespillerID = <span class="hljs-number">14</span>;
+</div></code></pre>
+<pre class="hljs"><code><div>+-----------------+------------+
+| Tittel          | Rolle      |
++-----------------+------------+
+| Bruce Almighty  | God        |
+| The Dark Knight | Lucius Fox |
+| Batman Begins   | Lucius Fox |
++-----------------+------------+
+3 rows <span class="hljs-keyword">in</span> <span class="hljs-built_in">set</span> (0.00 sec)
+</div></code></pre>
+<p><strong>e)</strong> Hent ut de distinkte titlene på filmene hvor regissøren og en av skuespillerne i filmen har likt navn.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> film.Tittel <span class="hljs-keyword">FROM</span> film <span class="hljs-keyword">JOIN</span> skuespillerifilm <span class="hljs-keyword">ON</span> skuespillerifilm.FilmID = film.FilmID 
+<span class="hljs-keyword">JOIN</span> skuespiller <span class="hljs-keyword">ON</span> skuespiller.SkuespillerID = skuespillerifilm.SkuespillerID 
+<span class="hljs-keyword">JOIN</span> regissør <span class="hljs-keyword">ON</span> regissør.RegissørID = film.RegissørID
+<span class="hljs-keyword">WHERE</span> regissør.Navn = skuespiller.Navn;
+</div></code></pre>
+<pre class="hljs"><code><div>+------------------------+
+| Tittel                 |
++------------------------+
+| En eksamenvakts dagbok |
++------------------------+
+1 row <span class="hljs-keyword">in</span> <span class="hljs-built_in">set</span> (0.00 sec)
+</div></code></pre>
+<p><strong>f)</strong> Finn antallet skuespillere som har et navn som starter på “C”.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">COUNT</span>(Navn) <span class="hljs-keyword">AS</span> <span class="hljs-string">"Antall skuespillere som har navn som starter med C"</span> <span class="hljs-keyword">FROM</span> skuespiller <span class="hljs-keyword">WHERE</span> navn = <span class="hljs-string">"C%"</span>;
+</div></code></pre>
+<pre class="hljs"><code><div>+----------------------------------------------------+
+| Antall skuespillere som har navn som starter med C |
++----------------------------------------------------+
+|                                                  0 |
++----------------------------------------------------+
+1 row <span class="hljs-keyword">in</span> <span class="hljs-built_in">set</span> (0.00 sec)
+</div></code></pre>
+<p><strong>g)</strong> For hver sjanger finn  sjangernavnet og antallet filmer av den sjangeren.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> Navn <span class="hljs-keyword">AS</span> <span class="hljs-string">"Sjanger"</span>, <span class="hljs-keyword">COUNT</span>(FilmID) <span class="hljs-keyword">AS</span> <span class="hljs-string">"Antall Filmer"</span> <span class="hljs-keyword">FROM</span> sjangerforfilm
+<span class="hljs-keyword">join</span> sjanger <span class="hljs-keyword">ON</span> sjanger.SjangerID = sjangerforfilm.SjangerID
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> sjanger.sjangerID;
+</div></code></pre>
+<pre class="hljs"><code><div>+-----------+---------------+
+| Sjanger   | Antall Filmer |
++-----------+---------------+
+| Komedie   |             5 |
+| Romantikk |             2 |
+| Eventyr   |             3 |
+| Krim      |             3 |
+| Fantasi   |             2 |
+| Drama     |             3 |
+| Action    |             3 |
+| Thriller  |             1 |
++-----------+---------------+
+8 rows <span class="hljs-keyword">in</span> <span class="hljs-built_in">set</span> (0.00 sec)
+</div></code></pre>
+<p><strong>h)</strong> Finn navnet på skuespillere som har spilt i filmen “Ace Ventura: Pet Detective”, men aldri i filmen “Ace Ventura: When Nature Calls”.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- &lt;!-- Pet detective; ID = 3, Nature Calls; ID = 2 --&gt;</span>
+<span class="hljs-keyword">SELECT</span> s.Navn <span class="hljs-keyword">FROM</span> skuespiller s
+    <span class="hljs-keyword">JOIN</span> skuespillerifilm sif <span class="hljs-keyword">ON</span> sif.SkuespillerID = s.SkuespillerID
+    <span class="hljs-keyword">WHERE</span> sif.FilmID = <span class="hljs-number">3</span> <span class="hljs-keyword">AND</span> sif.SkuespillerID <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">IN</span>
+        (<span class="hljs-keyword">SELECT</span> s.skuespillerID <span class="hljs-keyword">FROM</span> skuespiller s
+            <span class="hljs-keyword">JOIN</span> skuespillerifilm sif
+                <span class="hljs-keyword">ON</span> sif.SkuespillerID = s.SkuespillerID
+                <span class="hljs-keyword">WHERE</span> sif.FilmID = <span class="hljs-number">2</span>);
+</div></code></pre>
+<pre class="hljs"><code><div>+--------------+
+| Navn         |
++--------------+
+| Courtney Cox |
+| Sean Young   |
+| Tone Loc     |
+| Dan Marino   |
++--------------+
+4 rows <span class="hljs-keyword">in</span> <span class="hljs-built_in">set</span> (0.00 sec)
+</div></code></pre>
+<p><strong>i)</strong> For hver film, finn navnet på filmen, filmID og gjennomsnittlig fødselsår på skuespillerne i filmen. Vi ønsker kun å få med de filmene som har gjennomsnittlig fødselsår større enn gjennomsnittlig fødselsår for alle skuespillerne i databasen. (Hint: Her kan det være lurt med en underspørring i en HAVING-del etter aggregeringen).</p>
+<p><strong>PARSE THAT QUESTION!:</strong> Finn filmer hvor gjennomsnittlig fødselsår på skuespillerne i en film, er større enn gjennomsnitlig alder for alle skuespillerne i databasen.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> f.tittel, f.filmID, <span class="hljs-keyword">AVG</span>(s.fødselsår) <span class="hljs-keyword">AS</span> GjennomsnittligFødselsåriFilm <span class="hljs-keyword">FROM</span> film f
+<span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> skuespillerifilm sif <span class="hljs-keyword">ON</span> sif.filmID = f.filmID
+<span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> skuespiller s <span class="hljs-keyword">ON</span> sif.skuespillerID = s.skuespillerID
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> (f.filmID)
+<span class="hljs-keyword">HAVING</span> GjennomsnittligFødselsåriFilm &gt; (<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">AVG</span>(skuespiller.fødselsår) <span class="hljs-keyword">FROM</span> skuespiller);
+</div></code></pre>
+<pre class="hljs"><code><div>+----------------------------+--------+---------------------------------+
+| tittel                     | filmID | GjennomsnittligFødselsåriFilm   |
++----------------------------+--------+---------------------------------+
+| Yes Man                    |      1 |                       1970.8000 |
+| Ace Ventura: Pet Detective |      3 |                       1962.4000 |
++----------------------------+--------+---------------------------------+
+2 rows <span class="hljs-keyword">in</span> <span class="hljs-built_in">set</span> (0.00 sec)
+</div></code></pre>
+<h2 id="oppgave-3-flere-sp%C3%B8rringer-i-relasjonsalgebra">Oppgave 3: Flere spørringer i relasjonsalgebra</h2>
+<p><strong>a)</strong> Finn skuespillerID og navn på de skuespillere som ikke har spilt i en film produsert etter 2014.</p>
+<p><img src="file:///Volumes/Seagate%20Backup%20Plus%20Drive/ResilioSync/Datamod/%C3%98ving/3/img/1.jpg" alt="Relasjonsalgerbra a"></p>
+<p><strong>b)</strong> Hent skuespillerID, navn og fødselsår på skuespillerne som er født senere enn 2000, og de skuespillerne som er født senere enn 1990 og har spilt i en film som en ungdom (Rolle = “Ungdom”).</p>
+<p><img src="file:///Volumes/Seagate%20Backup%20Plus%20Drive/ResilioSync/Datamod/%C3%98ving/3/img/2.jpg" alt="Relasjonsalgerbra b"></p>
+<p><strong>c)</strong> For hver skuespiller finn  skuespillerID, navnet og antall filmer vedkommende har spilt i.</p>
+<p><img src="file:///Volumes/Seagate%20Backup%20Plus%20Drive/ResilioSync/Datamod/%C3%98ving/3/img/3.jpg" alt="Relasjonsalgerbra c"></p>
+<h2 id="oppgave-4-introduksjon-til-normaliseringsteori">Oppgave 4: Introduksjon til normaliseringsteori</h2>
+<table>
+<thead>
+<tr>
+<th>PersonID</th>
+<th>Navn</th>
+<th>Telefonnr</th>
+<th>Fakultetskode</th>
+<th>Fakultetsnavn</th>
+<th>Fakultetsbygg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>270393</td>
+<td>Ola Johansen</td>
+<td>73735667</td>
+<td>EDI</td>
+<td>Institutt for energi og datainnovasjon</td>
+<td>Oasen</td>
+</tr>
+<tr>
+<td>313874</td>
+<td>Kari Vintermo</td>
+<td>73739023</td>
+<td>EDI</td>
+<td>Institutt for energi og datainnovasjon</td>
+<td>Oasen</td>
+</tr>
+<tr>
+<td>241257</td>
+<td>Bernt Nilsen</td>
+<td>73731234</td>
+<td>EDI</td>
+<td>Institutt for energi og datainnovasjon</td>
+<td>Oasen</td>
+</tr>
+<tr>
+<td>935784</td>
+<td>Olav Foss</td>
+<td>73738471</td>
+<td>EDI</td>
+<td>Institutt for energi og datainnovasjon</td>
+<td>Oasen</td>
+</tr>
+<tr>
+<td>345481</td>
+<td>Per Høyder</td>
+<td>73739021</td>
+<td>EDI</td>
+<td>Institutt for energi og datainnovasjon</td>
+<td>Oasen</td>
+</tr>
+<tr>
+<td>134876</td>
+<td>ÅseBekkerud</td>
+<td>73746617</td>
+<td>IØA</td>
+<td>Institutt for økonomiske arkitekturer</td>
+<td>Solklossen</td>
+</tr>
+</tbody>
+</table>
+<p><strong>a)</strong> Dette er et eksempel på dårlig design. Det er fordi vi lagrer mye av den samme
+informasjonen mange ganger (redundans), når vi sannsynligvis kan strukturere
+tabellen på en smartere måte for å unngå dette. Vi får også problemer med
+innsetting, oppdatering og sletting av data. Hvis vi for eksempel sletter en person,
+kan vi risikere å helt miste informasjon om et fakultet.
+Hvis fakultetet EDI endrer navn til DI (institutt for datainnovasjon), slik at både
+fakultetskoden og fakultetsnavnet må endres, hvor mange felt trengs å
+oppdateres?</p>
+<p><strong>Svar:</strong> 10 felt</p>
+<p><strong>b)</strong> Kan du foreslå et alternativt design som gjør at vi trenger å oppdatere færre felter
+hvis EDI endrer navn?</p>
+<table>
+<thead>
+<tr>
+<th>PersonID</th>
+<th>Fornavn</th>
+<th>Etternavn</th>
+<th>Telefonnr</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>270393</td>
+<td>Ola</td>
+<td>Johansen</td>
+<td>73735667</td>
+</tr>
+<tr>
+<td>313874</td>
+<td>Kari</td>
+<td>Vintermo</td>
+<td>73739023</td>
+</tr>
+<tr>
+<td>241257</td>
+<td>Bernt</td>
+<td>Nilsen</td>
+<td>73731234</td>
+</tr>
+<tr>
+<td>935784</td>
+<td>Olav</td>
+<td>Foss</td>
+<td>73738471</td>
+</tr>
+<tr>
+<td>345481</td>
+<td>Per</td>
+<td>Høyder</td>
+<td>73739021</td>
+</tr>
+<tr>
+<td>134876</td>
+<td>Åse</td>
+<td>Bekkerud</td>
+<td>73746617</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>PersonID</th>
+<th>FakultetsID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>270393</td>
+<td>1</td>
+</tr>
+<tr>
+<td>313874</td>
+<td>1</td>
+</tr>
+<tr>
+<td>241257</td>
+<td>1</td>
+</tr>
+<tr>
+<td>935784</td>
+<td>1</td>
+</tr>
+<tr>
+<td>345481</td>
+<td>1</td>
+</tr>
+<tr>
+<td>134876</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>FakultetsID</th>
+<th>Fakultetskode</th>
+<th>Fakultetsnavn</th>
+<th>Fakultetsbygg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>EDI</td>
+<td>Institutt for energi og datainnovasjon</td>
+<td>Oasen</td>
+</tr>
+<tr>
+<td>2</td>
+<td>IØA</td>
+<td>Institutt for økonomiske arkitekturer</td>
+<td>Solklossen</td>
+</tr>
+</tbody>
+</table>
+<p>Nå trenger man bare å oppdatere to felt ved endring av fakultetsnavn og -kode.</p>
+<h2 id="oppgave-5-funksjonelle-avhengigheter-n%C3%B8kler-og-tillukning">Oppgave 5: Funksjonelle avhengigheter, nøkler og tillukning</h2>
+<p><strong>a)</strong> Anta følgende tabell. Hvilke påstander kan umulig stemme? Begrunn svarene dine.</p>
+<table>
+<thead>
+<tr>
+<th>$A$</th>
+<th>$B$</th>
+<th>$C$</th>
+<th>$D$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$a1$</td>
+<td>$b1$</td>
+<td>$c1$</td>
+<td>$d1$</td>
+</tr>
+<tr>
+<td>$a1$</td>
+<td>$b1$</td>
+<td>$c2$</td>
+<td>$d2$</td>
+</tr>
+<tr>
+<td>$a2$</td>
+<td>$b1$</td>
+<td>$c2$</td>
+<td>$d2$</td>
+</tr>
+<tr>
+<td>$a3$</td>
+<td>$b2$</td>
+<td>$c3$</td>
+<td>$d3$</td>
+</tr>
+<tr>
+<td>$a3$</td>
+<td>$b2$</td>
+<td>$c1$</td>
+<td>$d1$</td>
+</tr>
+<tr>
+<td>$a4$</td>
+<td>$b2$</td>
+<td>$c4$</td>
+<td>$d2$</td>
+</tr>
+</tbody>
+</table>
+<p><strong>1) $A \rightarrow A$</strong>
+<strong>2) $A \rightarrow B$</strong>
+<strong>3) $A \rightarrow C$</strong>: går ikke fordi a1 gir to forskjellige verdier ($c1$ og $c2$)
+<strong>4) $AB \rightarrow C$</strong>:går ikke fordi a1 og b2 gir to forskjellige verdier ($c1$ og $c2$)
+<strong>5) $C \rightarrow D$</strong>
+<strong>6) $D \rightarrow C$</strong>: går ikke fordi d2 gir to forskjellige verdier ($c2$ og $c4$)
+<strong>7) $ABCD$ er en supernøkkel for tabellen</strong>
+<strong>8) $ABC$ er en supernøkkel for tabellen</strong>
+<strong>9) $A$ er en kandidatnøkkel for tabellen</strong>: er feil fordi vi har flere like verdier i A.
+<strong>10) $AC$ er en kandidatnøkkel for tabellen</strong></p>
+<p><strong>b)</strong> $X+$ kalles tillukningen av $X$ og er mengden av alle attributter som er funksjonelt
+avhengig av $X$ (basert på en mengde funksjonelle avhengigheter $F$).
+Gitt tabellen $R = {A, B, C, D}$ og $F = {A \rightarrow C, B\rightarrow D, ABC \rightarrow D}$.
+Finn $A+$, $D+$, $BC$+ og $AB+$.</p>
+<p>$A+ = AC$
+$D+ = D$
+$BC+ = BCD$
+$AB+ = ABCD$</p>
+
+    </body>
+    </html>
